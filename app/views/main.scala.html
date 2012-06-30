@@ -1,38 +1,77 @@
 @(title: String)(content: Html)
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
-        <meta charset="utf-8">
-        <link rel="shortcut icon" href="assets/images/favicon.ico">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href=assets/images/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/images/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="assets/images/apple-touch-icon-57-precomposed.png">
-    </head>
-
-    <body>
-
-        @content
 
         <script src="assets/javascripts/jquery-1.7.1.min.js"></script>
         <script src="assets/javascripts/jquery.color.js"></script>
+
         <script src="assets/javascripts/bootstrap/bootstrap-alert.js"></script>
         <script src="assets/javascripts/bootstrap/bootstrap-button.js"></script>
         <script src="assets/javascripts/bootstrap/bootstrap-carousel.js"></script>
         <script src="assets/javascripts/bootstrap/bootstrap-collapse.js"></script>
         <script src="assets/javascripts/bootstrap/bootstrap-dropdown.js"></script>
         <script src="assets/javascripts/bootstrap/bootstrap-modal.js"></script>
+
         <script src="assets/javascripts/bootstrap/bootstrap-tooltip.js"></script>
         <script src="assets/javascripts/bootstrap/bootstrap-popover.js"></script>
+
         <script src="assets/javascripts/bootstrap/bootstrap-scrollspy.js"></script>
         <script src="assets/javascripts/bootstrap/bootstrap-tab.js"></script>
         <script src="assets/javascripts/bootstrap/bootstrap-transition.js"></script>
         <script src="assets/javascripts/bootstrap/bootstrap-typeahead.js"></script>
         <script src="assets/javascripts/json2.js"></script>
+
         <script src="assets/javascripts/underscore.js"></script>
         <script src="assets/javascripts/backbone.js"></script>
+
         <script src="assets/javascripts/handlebars.js"></script>
         <script src="assets/javascripts/xdate.dev.js"></script>
+
+    </head>
+
+    <body>
+
+        <pre>
+        This is a test page for what I believe is a bug in play 2x.
+
+        Visit this page on a real iPhone or iPad, using mobile safari with the Debug Console enabled,
+        and you will most likely see a load of javascript parse errors.
+
+        Manually clear the cache and try several times. You will see the parse errors
+        appear in different scripts on different lines each time.
+
+        With this many scripts I see parse errors on every page load. Commenting out some of
+        them reduces the likelyhood of parse errors. When you comment out all but 6 of them,
+        you should see that the page loads perfectly every time. 6 seems to be the magic number.
+
+        More than 6, and you've very likely to get a parseerror. 6 or less and it seems to load
+        perfectly each time.
+
+        Note that if you comment out some of the scripts on this page, some of them are dependent on each
+        other: backbone needs underscore, jquery.color needs jquery, and bootstrap popoer needs bootstrap
+        tooltip. So make sure those ones are uncommented in pairs.
+
+        As for the exact nature of the parseerror - if you install the firebug lite bookmarklet
+        on your iOS device, and use it to view whatever script contains a parseerror, you will
+        see the HTTP headers and body of one of the other scripts have got mixed in and dumped somewhere part
+        way through the script. Somehow different scripts and their HTTP headers are getting munged together.
+
+        Common denominators:
+
+        - this only seems to happen with play. If I serve the same page and same scripts through node.js
+          to the same mobile devices, it doesn't happen.
+
+        - this doesn't seem to affect desktop browsers or the new chrome iOS browser.
+
+        - if I set up a small node.js proxy, and tell my iPad to use it as an HTTP proxy, then for some
+          reason when visiting this play app, the problem goes away.
+
+        Is play somehow corrupting the streams in a subtle way that every other browser (and a node proxy)
+        don't mind but Mobile Safari does?
+
+        </pre>
+
 
     </body>
 </html>
