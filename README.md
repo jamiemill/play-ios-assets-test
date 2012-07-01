@@ -15,7 +15,7 @@ on every page load. With just a few scripts it doesn't happen at all.
 
 - Run this app on a desktop machine
 
-- Using a real iPad (possibly iPhone too?) enable mobile safari's debug console in
+- Using a real iPad or iPhone, enable mobile safari's debug console in
   Settings &gt; Safari &gt; Advanced page.
 
 - Visit this the app on the iPad using mobile safari.
@@ -62,10 +62,7 @@ on every page load. With just a few scripts it doesn't happen at all.
 - if I set up a small node.js proxy, and tell my iPad to use it as an HTTP proxy, then for some
   reason when visiting this play app, the problem goes away.
 
-- It reliably breaks on my iPad 3.
-
-- I can't reproduce it on my iPhone 4, though Marc said it happened on his iPhone (not sure
-  what version).
+- It reliably breaks on my iPad 3 and usually breaks on iPhone 4.
 
 Is play somehow corrupting the streams in a subtle way that every other browser (and a node proxy) don't mind but Mobile Safari does?
 
