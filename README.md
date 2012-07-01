@@ -34,14 +34,14 @@ on every page load. With just a few scripts it doesn't happen at all.
   and (and sometimes body) of a different javascript file have been dumped part-way thgough
   it:
 
-    foo = 17;
+      foo = 17;
 
-    HTTP/1.1 200 OK
-    Content-Length: 7218
-    Content-Type: application/javascript
-    Cache-control: no-cache
+      HTTP/1.1 200 OK
+      Content-Length: 7218
+      Content-Type: application/javascript
+      Cache-control: no-cache
 
-    foo = 17;
+      foo = 17;
 
 - In my tests with real javascript files what's actually happening is that script streams
   are being mixed up. Halfway through one script, another will be dumped, including its
