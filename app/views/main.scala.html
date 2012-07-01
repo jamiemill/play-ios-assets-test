@@ -3,30 +3,36 @@
 <html>
     <head>
 
-        <script src="assets/javascripts/jquery-1.7.1.min.js"></script>
-        <script src="assets/javascripts/jquery.color.js"></script>
-
-        <script src="assets/javascripts/bootstrap/bootstrap-alert.js"></script>
-        <script src="assets/javascripts/bootstrap/bootstrap-button.js"></script>
-        <script src="assets/javascripts/bootstrap/bootstrap-carousel.js"></script>
-        <script src="assets/javascripts/bootstrap/bootstrap-collapse.js"></script>
-        <script src="assets/javascripts/bootstrap/bootstrap-dropdown.js"></script>
-        <script src="assets/javascripts/bootstrap/bootstrap-modal.js"></script>
-
-        <script src="assets/javascripts/bootstrap/bootstrap-tooltip.js"></script>
-        <script src="assets/javascripts/bootstrap/bootstrap-popover.js"></script>
-
-        <script src="assets/javascripts/bootstrap/bootstrap-scrollspy.js"></script>
-        <script src="assets/javascripts/bootstrap/bootstrap-tab.js"></script>
-        <script src="assets/javascripts/bootstrap/bootstrap-transition.js"></script>
-        <script src="assets/javascripts/bootstrap/bootstrap-typeahead.js"></script>
-        <script src="assets/javascripts/json2.js"></script>
-
-        <script src="assets/javascripts/underscore.js"></script>
-        <script src="assets/javascripts/backbone.js"></script>
-
-        <script src="assets/javascripts/handlebars.js"></script>
-        <script src="assets/javascripts/xdate.dev.js"></script>
+        <script src="assets/javascripts/1.js"></script>
+        <script src="assets/javascripts/2.js"></script>
+        <script src="assets/javascripts/3.js"></script>
+        <script src="assets/javascripts/4.js"></script>
+        <script src="assets/javascripts/5.js"></script>
+        <script src="assets/javascripts/6.js"></script>
+        <script src="assets/javascripts/7.js"></script>
+        <script src="assets/javascripts/8.js"></script>
+        <script src="assets/javascripts/9.js"></script>
+        <script src="assets/javascripts/10.js"></script>
+        <script src="assets/javascripts/11.js"></script>
+        <script src="assets/javascripts/12.js"></script>
+        <script src="assets/javascripts/13.js"></script>
+        <script src="assets/javascripts/14.js"></script>
+        <script src="assets/javascripts/15.js"></script>
+        <script src="assets/javascripts/16.js"></script>
+        <script src="assets/javascripts/17.js"></script>
+        <script src="assets/javascripts/18.js"></script>
+        <script src="assets/javascripts/19.js"></script>
+        <script src="assets/javascripts/20.js"></script>
+        <script src="assets/javascripts/21.js"></script>
+        <script src="assets/javascripts/22.js"></script>
+        <script src="assets/javascripts/23.js"></script>
+        <script src="assets/javascripts/24.js"></script>
+        <script src="assets/javascripts/25.js"></script>
+        <script src="assets/javascripts/26.js"></script>
+        <script src="assets/javascripts/27.js"></script>
+        <script src="assets/javascripts/28.js"></script>
+        <script src="assets/javascripts/29.js"></script>
+        <script src="assets/javascripts/30.js"></script>
 
     </head>
 
@@ -35,27 +41,46 @@
         <pre>
         This is a test page for what I believe is a bug in play 2x.
 
-        Visit this page on a real iPhone or iPad, using mobile safari with the Debug Console enabled,
-        and you will most likely see a load of javascript parse errors.
+        Steps to reproduce:
 
-        Manually clear the cache and try several times. You will see the parse errors
-        appear in different scripts on different lines each time.
+        - Run this app on a desktop machine
 
-        With this many scripts I see parse errors on every page load. Commenting out some of
-        them reduces the likelyhood of parse errors. When you comment out all but 6 of them,
-        you should see that the page loads perfectly every time. 6 seems to be the magic number.
+        - Using a real iPad (possibly iPhone too?) enable mobile safari's debug console in
+          Settings &gt; Safari &gt; Advanced page.
 
-        More than 6, and you've very likely to get a parseerror. 6 or less and it seems to load
-        perfectly each time.
+        - Visit this the app on the iPad using mobile safari.
 
-        Note that if you comment out some of the scripts on this page, some of them are dependent on each
-        other: backbone needs underscore, jquery.color needs jquery, and bootstrap popoer needs bootstrap
-        tooltip. So make sure those ones are uncommented in pairs.
+        - You should see a few javascript parse errors logged in the debug console.
 
-        As for the exact nature of the parseerror - if you install the firebug lite bookmarklet
-        on your iOS device, and use it to view whatever script contains a parseerror, you will
-        see the HTTP headers and body of one of the other scripts have got mixed in and dumped somewhere part
-        way through the script. Somehow different scripts and their HTTP headers are getting munged together.
+        - Clear the mobile device's cache manually in Settings &gt; Safari
+
+        - Visit the page again. Note that the number of errors changes and the line numbers
+          are different each time.
+
+        Debugging:
+
+        - If you install the firebug lite bookmarklet on your mobile device, you can browse to the
+          script file / line number of the parse error and you'll see that somehow the HTTP headers
+          and (and sometimes body) of a different javascript file have been dumped part-way thgough
+          it:
+
+            foo = 17;
+
+            HTTP/1.1 200 OK
+            Content-Length: 7218
+            Content-Type: application/javascript
+            Cache-control: no-cache
+
+            foo = 17;
+
+        - In my tests with real javascript files what's actually happening is that script streams
+          are being mixed up. Halfway through one script, another will be dumped, including its
+          headers.
+
+        - The liklihood of this happening is tied to the number of scripts requests, or probably
+          actually the amount of data in scripts requested. When the scripts contain a few lines
+          then it doesn't happen until you have aroudn 20 scripts being requested. With larger
+          scripts, (like jquery, backbone etc) it happens with as few as 7.
 
         Common denominators:
 
@@ -66,6 +91,11 @@
 
         - if I set up a small node.js proxy, and tell my iPad to use it as an HTTP proxy, then for some
           reason when visiting this play app, the problem goes away.
+
+        - It reliably breaks on my iPad 3.
+
+        - I can't reproduce it on my iPhone 4, though Marc said it happened on his iPhone (not sure
+          what version).
 
         Is play somehow corrupting the streams in a subtle way that every other browser (and a node proxy)
         don't mind but Mobile Safari does?
