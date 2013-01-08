@@ -3,6 +3,12 @@
 <html>
     <head>
 
+        <script>
+          window.onerror = function(errorMsg, url, lineNumber) {
+            alert('ERROR: ' + errorMsg + ' url: ' + url + ' line: ' + lineNumber);
+          };
+        </script>
+
         <script src="assets/javascripts/1.js"></script>
         <script src="assets/javascripts/2.js"></script>
         <script src="assets/javascripts/3.js"></script>
@@ -38,7 +44,7 @@
 
     <body>
 
-        Test page. Look in debug console for parse errors.
+        Test page. An alert should pop up with a syntax error.
 
     </body>
 </html>
