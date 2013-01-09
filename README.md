@@ -11,23 +11,23 @@ the scripts don't work.
 With more than 5 largish scripts like jQuery, backbone, underscore etc, this happens
 on every page load. With just a few scripts it doesn't happen at all.
 
-## Steps to reproduce:
+## Steps to reproduce on iOS
 
 - Run this app on a desktop machine
 
 - Using a real iPad or iPhone, enable mobile safari's debug console in
-  Settings &gt; Safari &gt; Advanced page.
+  Settings &gt; Safari &gt; Advanced page. I also reproduced the problem in iOS simulator.
 
 - Visit this the app on the iPad using mobile safari.
 
-- You should see a few javascript parse errors logged in the debug console.
+- You should see a javascript error alerted. If not, try clearing cache and reloading until you do.
 
 - Clear the mobile device's cache manually in Settings &gt; Safari
 
 - Visit the page again. Note that the number of errors changes and the line numbers
   are different each time.
 
-## Debugging:
+### Debugging on iOS
 
 - If you install the firebug lite bookmarklet on your mobile device, you can browse to the
   script file / line number of the parse error and you'll see that somehow the HTTP headers
@@ -43,6 +43,21 @@ on every page load. With just a few scripts it doesn't happen at all.
 
           foo = 17;
 
+## Reproducing on the command-line:
+
+- Run the server with `play run`
+
+- Make a pipelined request for three files:
+    echo -e "GET /assets/javascripts/1.js HTTP/1.1\r\n\r\n GET /assets/javascripts/2.js HTTP/1.1\r\n\r\n GET /assets/javascripts/3.js HTTP/1.1\r\n" | nc localhost 9000
+
+- You should see files return out of order, or one file interrupting another.
+
+## Relevant bugs:
+
+- This seems similar, and is where I copied the netcat code from above: https://play.lighthouseapp.com/projects/82401/tickets/716-no-support-for-http-11-pipelined-requests
+
+## Common denominators:
+
 - In my tests with real javascript files what's actually happening is that script streams
   are being mixed up. Halfway through one script, another will be dumped, including its
   headers.
@@ -51,8 +66,6 @@ on every page load. With just a few scripts it doesn't happen at all.
   actually the amount of data in scripts requested. When the scripts contain a few lines
   then it doesn't happen until you have aroudn 20 scripts being requested. With larger
   scripts, (like jquery, backbone etc) it happens with as few as 7.
-
-## Common denominators:
 
 - this only seems to happen with play. If I serve the same page and same scripts through node.js
   to the same mobile devices, it doesn't happen.
