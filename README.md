@@ -22,7 +22,7 @@ on every page load. With just a few scripts it doesn't happen at all.
 
 - Make a pipelined request for three files:
 
-    echo -e "GET /assets/javascripts/1.js HTTP/1.1\r\n\r\n GET /assets/javascripts/2.js HTTP/1.1\r\n\r\n GET /assets/javascripts/3.js HTTP/1.1\r\n" | nc localhost 9000
+          echo -e "GET /assets/javascripts/1.js HTTP/1.1\r\n\r\n GET /assets/javascripts/2.js HTTP/1.1\r\n\r\n GET /assets/javascripts/3.js HTTP/1.1\r\n" | nc localhost 9000
 
 - You should see files return out of order, or one file interrupting another.
 
