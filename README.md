@@ -14,9 +14,20 @@ on every page load. With just a few scripts it doesn't happen at all.
 ## Tested on:
 
 - play 2.0.1
-- play 2.0.4
+- play 2.0.4 (current version this project is configured for)
 
-## Steps to reproduce on iOS
+## Reproducing on the command-line:
+
+- Run the server with `play run`
+
+- Make a pipelined request for three files:
+
+    echo -e "GET /assets/javascripts/1.js HTTP/1.1\r\n\r\n GET /assets/javascripts/2.js HTTP/1.1\r\n\r\n GET /assets/javascripts/3.js HTTP/1.1\r\n" | nc localhost 9000
+
+- You should see files return out of order, or one file interrupting another.
+
+
+## Reproducing on iOS
 
 - Run this app on a desktop machine
 
@@ -47,15 +58,6 @@ on every page load. With just a few scripts it doesn't happen at all.
           Cache-control: no-cache
 
           foo = 17;
-
-## Reproducing on the command-line:
-
-- Run the server with `play run`
-
-- Make a pipelined request for three files:
-    echo -e "GET /assets/javascripts/1.js HTTP/1.1\r\n\r\n GET /assets/javascripts/2.js HTTP/1.1\r\n\r\n GET /assets/javascripts/3.js HTTP/1.1\r\n" | nc localhost 9000
-
-- You should see files return out of order, or one file interrupting another.
 
 ## Relevant bugs:
 
