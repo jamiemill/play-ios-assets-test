@@ -11,6 +11,11 @@ the scripts don't work.
 With more than 5 largish scripts like jQuery, backbone, underscore etc, this happens
 on every page load. With just a few scripts it doesn't happen at all.
 
+## Tested on:
+
+- play 2.0.1
+- play 2.0.4
+
 ## Steps to reproduce on iOS
 
 - Run this app on a desktop machine
